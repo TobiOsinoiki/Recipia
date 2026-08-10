@@ -2,7 +2,7 @@ import express from "express";
 import { authMiddleware, optionalAuth } from "../middleware/auth.js";
 import { updateProfile, getMe, getPublicProfile, searchUsers } from "../Controller/userController.js";
 import { getPublicCollectionsForUser } from "../Controller/collectionController.js";
-import { toggleFollow, getFollowers, getFollowing } from "../Controller/followController.js";
+import { toggleFollow, getFollowers, getFollowing } from "../Controller/FollowController.js";
 
 const router = express.Router();
 
