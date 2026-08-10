@@ -4,6 +4,7 @@ import { updateProfile, getMe, getPublicProfile, searchUsers } from "../Controll
 import { getPublicCollectionsForUser } from "../Controller/collectionController.js";
 import { toggleFollow, getFollowers, getFollowing } from "../Controller/FollowController.js";
 
+
 const router = express.Router();
 
 router.get("/me", authMiddleware, getMe);

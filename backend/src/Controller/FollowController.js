@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import User from "../models/User.js";
-import { notify } from "../Services/notificationService.js";
+import { notify } from "../Services/Notificationservice.js";
 
 const isValidId = (id) => mongoose.Types.ObjectId.isValid(id);
 
-// POST /api/users/:id/follow (auth) — toggles follow/unfollow
+
 export const toggleFollow = async (req, res) => {
   try {
     const targetId = req.params.id;

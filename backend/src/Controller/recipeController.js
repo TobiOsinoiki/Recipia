@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import Recipe from "../models/Recipe.js";
 import Comment from "../models/Comment.js";
-import { notify } from "../Services/notificationService.js";
+import { notify } from "../Services/Notificationservice.js";
 import User from "../models/User.js";
-import {notifyFollowers } from "../Services/notificationService.js";
+import {notifyFollowers } from "../Services/Notificationservice.js";
 const PUBLIC_TEASER_LIMIT = 6;
 const isValidId = (id) => mongoose.Types.ObjectId.isValid(id);
 

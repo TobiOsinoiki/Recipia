@@ -1,6 +1,6 @@
 import Notification from "../models/Notification.js";
 
-// GET /api/notifications (auth)
+
 export const getNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find({ recipient: req.user.id })

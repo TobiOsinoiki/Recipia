@@ -7,8 +7,7 @@ const CollectionSchema = new mongoose.Schema(
     description: { type: String, default: "", trim: true },
     isPrivate: { type: Boolean, default: true },
     recipes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Recipe" }],
-    // The built-in "Favorites" collection created lazily the first time a user hearts a recipe.
-    // Cannot be deleted or renamed.
+   
     isFavorites: { type: Boolean, default: false },
   },
   { timestamps: true }

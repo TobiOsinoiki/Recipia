@@ -9,8 +9,7 @@ const router = express.Router();
 const signToken = (user) =>
   jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
-// POST /api/otp/verify
-// Verifies the code sent at registration, marks the account verified, and logs the user in.
+
 router.post("/verify", async (req, res) => {
   try {
     const { email, code } = req.body;

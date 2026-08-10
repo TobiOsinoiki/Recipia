@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Collection from "../models/Collection.js";
 import Recipe from "../models/Recipe.js";
-import { notify } from "../Services/notificationService.js";
+import { notify } from "../Services/Notificationservice.js";
 
 const isValidId = (id) => mongoose.Types.ObjectId.isValid(id);
 
