@@ -1,0 +1,17 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "services": {
+    "backend": {
+      "rootDirectory": "backend",
+      "networking": {
+        "serviceDomains": [
+          {
+            "domain": "recipia-production.up.railway.app",
+            "port": 8080
+          }
+        ]
+      }
+    }
+  }
+}
+
