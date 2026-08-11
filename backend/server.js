@@ -40,6 +40,9 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/ping", (req, res) => {
+  res.send("pong");
+});
 // routes
 app.use("/api", authRoutes);
 app.use("/api/otp", otpRoutes);
