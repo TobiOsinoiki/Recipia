@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"profileOwner":{"$numberInt":"1"}},"name":"profileOwner_1","background":true}],"uuid":"829db00170ac4c779805becfd3ada326","collectionName":"profilecomments","type":"collection"}

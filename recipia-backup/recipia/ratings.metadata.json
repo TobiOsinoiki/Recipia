@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"recipe":{"$numberInt":"1"},"user":{"$numberInt":"1"}},"name":"recipe_1_user_1","background":true,"unique":true}],"uuid":"4a44676f414c4402a49385808ea7bbfa","collectionName":"ratings","type":"collection"}
