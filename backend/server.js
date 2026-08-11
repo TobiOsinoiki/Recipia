@@ -66,7 +66,7 @@ app.listen(PORT, "0.0.0.0", () => {
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 });
 
-// connect DB AFTER server starts
+
 connectDB().then(() => {
   console.log("MongoDB connected");
 }).catch(err => {
@@ -80,4 +80,4 @@ process.on("uncaughtException", (err) => {
   console.error("Uncaught Exception:", err);
 });
 
-startServer();
+
