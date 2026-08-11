@@ -12,7 +12,7 @@ import adminRoutes from "./src/Routes/adminRoutes.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 // ✅ FIXED CORS
 app.use(
@@ -32,17 +32,18 @@ app.use((req, res, next) => {
   next();
 });
 
+// test routes
 app.get("/", (req, res) => {
   res.json({
     message: "Recipia API is running",
     status: "OK",
-    timestamp: new Date().toISOString(),
   });
 });
 
 app.get("/ping", (req, res) => {
   res.send("pong");
 });
+
 // routes
 app.use("/api", authRoutes);
 app.use("/api/otp", otpRoutes);
@@ -56,8 +57,6 @@ app.use("/api/admin", adminRoutes);
 app.use((req, res) => {
   res.status(404).json({
     message: "Route not found",
-    requestedUrl: req.originalUrl,
-    method: req.method,
   });
 });
 
@@ -66,29 +65,18 @@ app.use((err, req, res, next) => {
   console.error("Server error:", err.message);
   res.status(err.status || 500).json({
     message: "Internal server error",
-    error:
-      process.env.NODE_ENV === "development"
-        ? err.message
-        : "Something went wrong",
   });
 });
 
-// ✅ Start server FIRST
-app.listen(PORT, "0.0.0.0", () => {
-  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-  console.log("Recipia Server Started Successfully");
-  console.log(`Server running on port ${PORT}`);
-  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+// start server
+app.listen(PORT, () => {
+  console.log("🚀 Server running on port", PORT);
 });
 
-// ✅ THEN connect DB
+// connect DB AFTER
 connectDB()
-  .then(() => {
-    console.log("MongoDB connected");
-  })
-  .catch((err) => {
-    console.error("MongoDB connection failed:", err.message);
-  });
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection failed:", err));
 
 process.on("unhandledRejection", (err) => {
   console.error("Unhandled Promise Rejection:", err);
