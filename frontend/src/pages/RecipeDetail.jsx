@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Bookmark, Trash2, Pencil, Clock, Flame, Users, ArrowLeft } from "lucide-react";
 import api from "../api.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import CommentSection from "../components/CommentSection.jsx";
+import CommentsSection from "../components/CommentsSection.jsx";
 import SaveToCollectionModal from "../components/SaveToCollectionModal.jsx";
 import ReportButton from "../components/ReportButton.jsx";
 import cook3 from "../assets/cook3.png";
@@ -168,7 +168,7 @@ export default function RecipeDetail() {
 </div>
 
           <div className="rd-comments">
-            <CommentSection recipeId={recipe._id} recipeAuthorId={recipe.author?._id} />
+            <CommentsSection recipeId={recipe._id} recipeAuthorId={recipe.author?._id} />
           </div>
         </article>
       </div>
