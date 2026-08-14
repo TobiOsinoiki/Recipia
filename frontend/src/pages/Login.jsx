@@ -5,7 +5,7 @@ import api from "../api.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import food7 from "../assets/food7.png";
 import logo from "../assets/logo.png";
-
+import ForgotPassword from "./ForgotPassword.jsx";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -71,7 +71,7 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-shell">
+    <div className="auth-shell" style={{ minHeight: "92vh" }}>
 
       <aside className="auth-art">
         <div className="auth-art__blob" aria-hidden="true" />
@@ -164,10 +164,11 @@ export default function Login() {
 
             <p className="auth-foot">
               Don’t have an account? <Link to="/register" className="auth-foot__link">Sign up</Link>
-              <Link to="/forgot-password" className="text-xs text-recipia-olive font-semibold self-end">
-  Forgot password?
-</Link>
             </p>
+
+     <div style={{ textAlign: "right" }}>
+  <Link to="/forgot-password" className="auth-link-btn">Forgot password?</Link>
+</div>
           </form>
         </div>
       </main>

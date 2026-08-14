@@ -4,6 +4,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 import RecipeDetail from "./pages/RecipeDetail.jsx";
 import AddRecipe from "./pages/AddRecipe.jsx";
 import UserDashboard from "./pages/UserDashboard.jsx";
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />}/>
             <Route path="/about" element={<About />} />
             <Route path="/recipe/:id" element={<RecipeDetail />} />
             <Route path="/profile/:id" element={<PublicProfile />} />
@@ -32,6 +34,7 @@ export default function App() {
             <Route path="/dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
             <Route path="/collections" element={<ProtectedRoute><Collections /></ProtectedRoute>} />
             <Route path="/admin-dashboard" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
+
           </Routes>
         </main>
       </div>

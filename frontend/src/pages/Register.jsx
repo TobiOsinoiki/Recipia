@@ -93,7 +93,7 @@ export default function Register() {
     `auth-input${errors[field] ? " auth-input--error" : ""}`;
 
   return (
-    <div className="auth-shell">
+    <div className="auth-shell" style={{ minHeight: "92vh" }}>
      
       <aside className="auth-art">
         <div className="auth-art__blob" aria-hidden="true" />

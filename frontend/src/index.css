@@ -9,11 +9,22 @@ body {
   color: #333;
   
 }
-html, body
-{
-  min-height: 100%;
-   background: #e4d868;
+html, body, #root {
+  height: 100%;
 }
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
 .ecip{
    font-family: "Nunito"
 }
@@ -72,6 +83,7 @@ html, body
    background-position: center; background-repeat: no-repeat;
    }
    .homeback{
+    min-height: 100vh;
       background: #e4d868; 
   
    background-position: center;
@@ -163,11 +175,12 @@ body.modal-open { overflow: hidden; }
   z-index: 4;
   position: relative;
 overflow: hidden;
-  min-height: 100vh;
+ min-height: 100vh;
 }
 .home-page-inner {
   position: relative;
   z-index: 1;
+min-height: 100vh;
 }
 
 
@@ -489,6 +502,7 @@ overflow: hidden;
 
 
 .rcp-cta {
+    overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -539,14 +553,15 @@ overflow: hidden;
 
 
 :root {
-  --nav-h: 72px; /* set to your real nav height */
+  --nav-h: 72px; 
 }
 
-/* was: min-height: 100vh  →  subtract the nav */
 .home-page,
 .dashboard-page,
-.rcp-page {
-  min-height: calc(100dvh - var(--nav-h));
+.rcp-page,
+.rd-page,
+.auth-shell {
+  min-height: 100%;
 }
 
 
@@ -555,7 +570,9 @@ overflow: hidden;
   position: relative;
   overflow: hidden;
 }
-
+.home-page {
+  overflow: hidden;
+}
 
 .ff-wrap {
   position: absolute;
@@ -773,8 +790,8 @@ overflow: hidden;
 
 .food7 {
   position: absolute;
-  top: 48%;
-  right: -200px;
+  top: 61%;
+  right: -141px;
   translate: 0 -50%;
   width: 700px;
   max-width: none;
@@ -784,8 +801,8 @@ overflow: hidden;
 }
 .food72 {
   position: absolute;
-  top: 45%;
-  right: -200px;
+  top: 67%;
+  right: -150px;
   translate: 0 -50%;
   width: 700px;
   max-width: none;

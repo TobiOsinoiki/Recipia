@@ -83,7 +83,7 @@ function FloatingFoods() {
 
   useEffect(() => {
     const update = () => {
-      const h = document.documentElement.scrollHeight;
+     const h = window.innerHeight;
       setSlots(Math.max(MIN_SLOTS, Math.ceil(h / SLOT_PX)));
     };
     update();
@@ -97,7 +97,7 @@ function FloatingFoods() {
   );
 
   return (
-    <div className="ff-wrap" aria-hidden="true">
+    <div className="ff-wrap" aria-hidden="true" >
       {tops.map((topPct, i) => {
         const rot1  = ROTATIONS[ i          % ROTATIONS.length];
         const rot2  = ROTATIONS[(i + 7)     % ROTATIONS.length];
@@ -146,7 +146,7 @@ function FloatingFoods() {
 
   if (!user) {
     return (
-       <div className="homeback min-h-screen py-12"  >
+       <div className="homeback min-h-screen"  >
       <div className="home-page">
         {floats}
         <div className="home-page-inner">
@@ -263,7 +263,7 @@ function FloatingFoods() {
 
   /* ═══ LOGGED-IN VIEW ════════════════════════════════════════════════ */
   return (
-     <div className="homeback min-h-screen py-12" >
+     <div className="homeback" >
     <div className="home-page">
       {floats}
       <div className="home-page-inner">
