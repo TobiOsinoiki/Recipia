@@ -24,3 +24,4 @@ export async function sendOTPEmail(email, code) {
 
   console.log(`OTP email sent to ${email}`);
 }
+
