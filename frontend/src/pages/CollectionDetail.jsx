@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Lock, Globe, Heart } from "lucide-react";
 import api from "../api.js";
 import RecipeCard from "../components/RecipeCard.jsx";
-
+import cook4 from "../assets/cook4.png";
 export default function CollectionDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ export default function CollectionDetail() {
   }
 
   return (
+        <div className="collback rcp-page" style={{ backgroundImage: `url(${cook4})` }}>
     <div className="max-w-5xl mx-auto px-5 py-9">
       <button onClick={() => navigate(-1)} className="text-recipia-red font-semibold mb-4">← Back</button>
 
@@ -55,5 +56,6 @@ export default function CollectionDetail() {
         </div>
       )}
     </div>
+        </div>
   );
 }

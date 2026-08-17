@@ -71,7 +71,6 @@ const CATEGORY_TEMPLATES = {
 const CUISINES = ["Italian", "Mexican", "Indian", "Thai", "French", "Japanese", "Mediterranean", "American", "Chinese", "Middle Eastern"];
 const DIFFICULTIES = ["Easy", "Medium", "Hard"];
 
-// Dish names grouped under the category they actually belong to.
 const DISHES_BY_CATEGORY = {
   Breakfast: [
     "Skillet Frittata", "Golden Pancakes", "Overnight Oats", "Shakshuka", "French Toast",
