@@ -1,13 +1,19 @@
-import { Resend } from "resend";
+import brevo from "@getbrevo/brevo";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const apiInstance = new brevo.TransactionalEmailsApi();
+
+apiInstance.setApiKey(
+  brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
+);
 
 export async function sendOTPEmail(email, code) {
-  const { data, error } = await resend.emails.send({
-    from: "Recipia <onboarding@resend.dev>",
-    to: [email],
-    subject: "Your Recipia Verification Code",
-    html: `
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+
+    sendSmtpEmail.subject = "Your Recipia Verification Code";
+
+    sendSmtpEmail.htmlContent = `
       <div style="font-family: system-ui, sans-serif; max-width: 480px; margin: 0 auto; padding: 2rem; background:#fefce8; border-radius:12px;">
         <h2 style="color:#c0392b; text-align:center;">Recipia</h2>
 
@@ -23,13 +29,24 @@ export async function sendOTPEmail(email, code) {
           This code expires in 10 minutes.
         </p>
       </div>
-    `,
-  });
+    `;
 
-  if (error) {
-    console.error("Resend email error:", error);
-    throw new Error(error.message);
+    sendSmtpEmail.sender = {
+      name: "Recipia",
+      email: "osinoikitobi@gmail.com"
+    };
+
+    sendSmtpEmail.to = [
+      {
+        email: email
+      }
+    ];
+
+    const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
+
+    console.log(`OTP email sent to ${email}`, result);
+  } catch (error) {
+    console.error("Brevo email error:", error);
+    throw error;
   }
-
-  console.log(`OTP email sent to ${email}`, data?.id);
 }
