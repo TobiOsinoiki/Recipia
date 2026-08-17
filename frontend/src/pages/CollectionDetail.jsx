@@ -29,8 +29,8 @@ export default function CollectionDetail() {
   }
 
   return (
-        <div className="collback rcp-page" style={{ backgroundImage: `url(${cook4})` }}>
-    <div className="max-w-5xl mx-auto px-5 py-9">
+     <div className="collback rcp-page" style={{ backgroundImage: `url(${cook4})`}}>
+    <div className="rcp-sheet max-w-5xl mx-auto px-5 py-9">
       <button onClick={() => navigate(-1)} className="text-recipia-red font-semibold mb-4">← Back</button>
 
       <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
@@ -56,6 +56,6 @@ export default function CollectionDetail() {
         </div>
       )}
     </div>
-        </div>
+    </div>
   );
 }
