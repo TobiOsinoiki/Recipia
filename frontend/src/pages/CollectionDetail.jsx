@@ -25,7 +25,7 @@ export default function CollectionDetail() {
         <p className="text-gray-500 mb-4">{error}</p>
         <button onClick={() => navigate(-1)} className="text-recipia-red font-semibold">← Back</button>
       </div>
-    );
+    ); 
   }
 
   return (
