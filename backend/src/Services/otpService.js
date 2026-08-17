@@ -1,50 +1,86 @@
-const otpStore = new Map();
+import OTP from "../models/OTP.js";
 
-const OTP_EXPIRY_MS = 10 * 60 * 1000; // 10 minutes
+const OTP_EXPIRY_MS = 10 * 60 * 1000;
 
 function generateOTP() {
   return String(Math.floor(10000 + Math.random() * 90000));
 }
 
-function createOTP(identifier) {
+async function createOTP(identifier) {
   const code = generateOTP();
-  otpStore.set(identifier, {
-    code,
-    expiresAt: Date.now() + OTP_EXPIRY_MS,
-    verified: false,
-  });
+
+  const expiresAt = new Date(Date.now() + OTP_EXPIRY_MS);
+
+  await OTP.findOneAndUpdate(
+    { identifier },
+    {
+      identifier,
+      code,
+      expiresAt,
+      verified: false,
+    },
+    {
+      upsert: true,
+      new: true,
+      setDefaultsOnInsert: true,
+    }
+  );
+
   return code;
 }
 
-function getOTP(identifier) {
-  const entry = otpStore.get(identifier);
+async function getOTP(identifier) {
+  const entry = await OTP.findOne({ identifier });
+
   if (!entry) return null;
-  if (Date.now() > entry.expiresAt) {
-    otpStore.delete(identifier);
+
+  if (Date.now() > entry.expiresAt.getTime()) {
+    await OTP.deleteOne({ identifier });
     return null;
   }
+
   return entry;
 }
 
-function verifyOTP(identifier, inputCode) {
-  const entry = getOTP(identifier);
+async function verifyOTP(identifier, inputCode) {
+  const entry = await getOTP(identifier);
+
   if (!entry) {
-    return { success: false, message: "OTP expired or not found. Please request a new code." };
+    return {
+      success: false,
+      message: "OTP expired or not found. Please request a new code.",
+    };
   }
+
   if (entry.code !== String(inputCode)) {
-    return { success: false, message: "wrong" };
+    return {
+      success: false,
+      message: "wrong",
+    };
   }
+
   entry.verified = true;
-  return { success: true, message: "Verified" };
+  await entry.save();
+
+  return {
+    success: true,
+    message: "Verified",
+  };
 }
 
-function isVerified(identifier) {
-  const entry = otpStore.get(identifier);
+async function isVerified(identifier) {
+  const entry = await OTP.findOne({ identifier });
   return !!(entry && entry.verified === true);
 }
 
-function clearOTP(identifier) {
-  otpStore.delete(identifier);
+async function clearOTP(identifier) {
+  await OTP.deleteOne({ identifier });
 }
 
-export { createOTP, getOTP, verifyOTP, isVerified, clearOTP };
+export {
+  createOTP,
+  getOTP,
+  verifyOTP,
+  isVerified,
+  clearOTP,
+};

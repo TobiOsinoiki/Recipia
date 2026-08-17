@@ -18,7 +18,7 @@ router.post("/verify", async (req, res) => {
     }
 
     const normalizedEmail = email.toLowerCase();
-    const result = verifyOTP(normalizedEmail, code);
+    const result = await verifyOTP(normalizedEmail, code);
     if (!result.success) {
       return res.status(400).json({ message: result.message });
     }
@@ -51,7 +51,7 @@ router.post("/resend", async (req, res) => {
     if (!user) return res.status(404).json({ message: "No account found with that email" });
     if (user.isVerified) return res.status(400).json({ message: "This account is already verified" });
 
-    const code = createOTP(normalizedEmail);
+   const code = await createOTP(normalizedEmail);
     await sendOTPEmail(normalizedEmail, code);
     res.json({ message: "Verification code sent" });
   } catch (err) {
@@ -70,7 +70,7 @@ router.post("/forgot-password", async (req, res) => {
     const user = await User.findOne({ email: normalizedEmail });
 
     if (user) {
-      const code = createOTP(`reset:${normalizedEmail}`);
+      const code = await createOTP(`reset:${normalizedEmail}`);
       await sendOTPEmail(normalizedEmail, code);
     }
     res.json({ message: "If that email exists, a reset code has been sent." });
@@ -91,7 +91,7 @@ router.post("/reset-password", async (req, res) => {
       return res.status(400).json({ message: "Password must be at least 6 characters" });
     }
     const normalizedEmail = email.toLowerCase();
-    const result = verifyOTP(`reset:${normalizedEmail}`, code);
+  const result = await verifyOTP(`reset:${normalizedEmail}`, code);
     if (!result.success) return res.status(400).json({ message: result.message });
 
     const user = await User.findOne({ email: normalizedEmail });
@@ -99,7 +99,7 @@ router.post("/reset-password", async (req, res) => {
 
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
-    clearOTP(`reset:${normalizedEmail}`);
+   await clearOTP(`reset:${normalizedEmail}`);
 
     res.json({ message: "Password reset. You can now log in." });
   } catch (err) {

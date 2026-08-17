@@ -34,7 +34,7 @@ export const register = async (req, res) => {
     });
 
    
-    const code = createOTP(normalizedEmail);
+    const code = await createOTP(normalizedEmail);
     await sendOTPEmail(normalizedEmail, code);
 
     res.status(201).json({
