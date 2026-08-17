@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { createOTP, verifyOTP } from "../Services/otpService.js";
+import { createOTP, verifyOTP, clearOTP } from "../Services/otpService.js";
 import { sendOTPEmail } from "../Services/emailService.js";
 
 const router = express.Router();
@@ -68,18 +68,19 @@ router.post("/forgot-password", async (req, res) => {
     if (!email) return res.status(400).json({ message: "Email is required" });
     const normalizedEmail = email.toLowerCase();
     const user = await User.findOne({ email: normalizedEmail });
-    // Don't reveal whether the account exists
+
     if (user) {
       const code = createOTP(`reset:${normalizedEmail}`);
       await sendOTPEmail(normalizedEmail, code);
     }
     res.json({ message: "If that email exists, a reset code has been sent." });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to send reset code" });
-  }
+ } catch (err) {
+  console.error("Forgot password error:", err);
+  res.status(500).json({ message: "Failed to send reset code" });
+}
 });
 
-// POST /api/otp/reset-password
+//reset-password
 router.post("/reset-password", async (req, res) => {
   try {
     const { email, code, newPassword } = req.body;
