@@ -1,4 +1,4 @@
-import OTP from "../models/OTP.js";
+import OTP from "../models/otp.js";
 
 const OTP_EXPIRY_MS = 10 * 60 * 1000;
 
