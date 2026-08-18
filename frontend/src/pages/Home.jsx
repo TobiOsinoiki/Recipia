@@ -75,7 +75,6 @@ const ROTATIONS = [ 12, -10,  8, -14, 16,  -8, 20, -12, 10, -16,  6, 18, -6, 14]
 const DURATIONS = [5.0, 5.4, 5.8, 4.8, 6.2, 5.2, 5.6, 4.6, 6.0, 5.1, 5.3, 5.5, 4.9, 6.1];
 const DELAYS    = [0.0, 0.8, 1.2, 0.5, 0.3, 1.4, 0.7, 0.9, 1.5, 0.6, 1.1, 0.4, 1.8, 0.2];
 
-// Defaults used if no props are passed to FloatingFoods
 const DEFAULT_SLOT_PX   = 20;
 const DEFAULT_MIN_SLOTS = 5;
 
@@ -144,8 +143,8 @@ function FloatingFoods({ slotPx = DEFAULT_SLOT_PX, minSlots = DEFAULT_MIN_SLOTS 
   );
 }
 
-  // Different spacing for logged-out (sparser) vs logged-in (denser) views
-  const floatsLoggedOut = <FloatingFoods slotPx={40} minSlots={8} />;
+
+  const floatsLoggedOut = <FloatingFoods slotPx={450} minSlots={6} />;
   const floatsLoggedIn  = <FloatingFoods slotPx={20} minSlots={5} />;
 
   if (!user) {
