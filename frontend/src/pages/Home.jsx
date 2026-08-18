@@ -75,22 +75,23 @@ const ROTATIONS = [ 12, -10,  8, -14, 16,  -8, 20, -12, 10, -16,  6, 18, -6, 14]
 const DURATIONS = [5.0, 5.4, 5.8, 4.8, 6.2, 5.2, 5.6, 4.6, 6.0, 5.1, 5.3, 5.5, 4.9, 6.1];
 const DELAYS    = [0.0, 0.8, 1.2, 0.5, 0.3, 1.4, 0.7, 0.9, 1.5, 0.6, 1.1, 0.4, 1.8, 0.2];
 
-const SLOT_PX   = 20;   
-const MIN_SLOTS =   10;   
+// Defaults used if no props are passed to FloatingFoods
+const DEFAULT_SLOT_PX   = 20;
+const DEFAULT_MIN_SLOTS = 5;
 
-function FloatingFoods() {
-  const [slots, setSlots] = useState(MIN_SLOTS);
+function FloatingFoods({ slotPx = DEFAULT_SLOT_PX, minSlots = DEFAULT_MIN_SLOTS }) {
+  const [slots, setSlots] = useState(minSlots);
 
   useEffect(() => {
     const update = () => {
      const h = window.innerHeight;
-      setSlots(Math.max(MIN_SLOTS, Math.ceil(h / SLOT_PX)));
+      setSlots(Math.max(minSlots, Math.ceil(h / slotPx)));
     };
     update();
     const ro = new ResizeObserver(update);
     ro.observe(document.body);
     return () => ro.disconnect();
-  }, []);
+  }, [slotPx, minSlots]);
 
   const tops = Array.from({ length: slots }, (_, i) =>
     slots === 1 ? 50 : 5 + (i / (slots - 1)) * 92   
@@ -142,13 +143,16 @@ function FloatingFoods() {
     </div>
   );
 }
-  const floats = <FloatingFoods />;
+
+  // Different spacing for logged-out (sparser) vs logged-in (denser) views
+  const floatsLoggedOut = <FloatingFoods slotPx={40} minSlots={8} />;
+  const floatsLoggedIn  = <FloatingFoods slotPx={20} minSlots={5} />;
 
   if (!user) {
     return (
        <div className="homeback min-h-screen"  >
       <div className="home-page">
-        {floats}
+        {floatsLoggedOut}
         <div className="home-page-inner">
 
  
@@ -260,21 +264,12 @@ function FloatingFoods() {
       </div>
     );
   }
-// const base = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
-// const targetWords = 100000;
 
-// let text = "";
-// let count = 0;
-
-// while (count < targetWords) {
-//   text += base;
-//   count += base.split(" ").length;
-// }
   /* ═══ LOGGED-IN VIEW ════════════════════════════════════════════════ */
   return (
      <div className="homeback" >
     <div className="home-page">
-      {floats}
+      {floatsLoggedIn}
       <div className="home-page-inner">
 
         {/* Search / filter bar */}
