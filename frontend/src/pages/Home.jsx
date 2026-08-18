@@ -75,8 +75,8 @@ const ROTATIONS = [ 12, -10,  8, -14, 16,  -8, 20, -12, 10, -16,  6, 18, -6, 14]
 const DURATIONS = [5.0, 5.4, 5.8, 4.8, 6.2, 5.2, 5.6, 4.6, 6.0, 5.1, 5.3, 5.5, 4.9, 6.1];
 const DELAYS    = [0.0, 0.8, 1.2, 0.5, 0.3, 1.4, 0.7, 0.9, 1.5, 0.6, 1.1, 0.4, 1.8, 0.2];
 
-const SLOT_PX   = 100;   
-const MIN_SLOTS =   11;   
+const SLOT_PX   = 180;   
+const MIN_SLOTS =   7;   
 
 function FloatingFoods() {
   const [slots, setSlots] = useState(MIN_SLOTS);
@@ -91,10 +91,9 @@ function FloatingFoods() {
     ro.observe(document.body);
     return () => ro.disconnect();
   }, []);
-const tops = Array.from({ length: slots }, (_, i) =>
-  10 + (i * 4) % 80
 
-
+  const tops = Array.from({ length: slots }, (_, i) =>
+    slots === 1 ? 50 : 5 + (i / (slots - 1)) * 90   
   );
 
   return (
@@ -261,16 +260,16 @@ const tops = Array.from({ length: slots }, (_, i) =>
       </div>
     );
   }
-const base = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
-const targetWords = 100000;
+// const base = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
+// const targetWords = 100000;
 
-let text = "";
-let count = 0;
+// let text = "";
+// let count = 0;
 
-while (count < targetWords) {
-  text += base;
-  count += base.split(" ").length;
-}
+// while (count < targetWords) {
+//   text += base;
+//   count += base.split(" ").length;
+// }
   /* ═══ LOGGED-IN VIEW ════════════════════════════════════════════════ */
   return (
      <div className="homeback" >
@@ -366,7 +365,7 @@ while (count < targetWords) {
 
           ) : tab === "recipes" ? (
             recipes.length === 0 ? (
-              <p className="text-center text-gray-400 py-16">Sorry, no recipes match your search {text}</p>
+              <p className="text-center text-gray-400 py-16">Sorry, no recipes match your search</p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {recipes.map((r, i) => (
