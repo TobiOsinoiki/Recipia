@@ -9,7 +9,7 @@ import userRoutes from "./src/Routes/userRoutes.js";
 import recipeRoutes, { commentDeleteRouter } from "./src/Routes/recipeRoutes.js";
 import collectionRoutes from "./src/Routes/collectionRoutes.js";
 import adminRoutes from "./src/Routes/adminRoutes.js";
-
+import notificationRoutes from "./src/Routes/notificationRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -46,7 +46,7 @@ app.use("/api/recipes", recipeRoutes);
 app.use("/api/comments", commentDeleteRouter);
 app.use("/api/collections", collectionRoutes);
 app.use("/api/admin", adminRoutes);
-
+app.use("/api/notifications", notificationRoutes);
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found", requestedUrl: req.originalUrl, method: req.method });
 });

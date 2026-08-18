@@ -75,7 +75,7 @@ const ROTATIONS = [ 12, -10,  8, -14, 16,  -8, 20, -12, 10, -16,  6, 18, -6, 14]
 const DURATIONS = [5.0, 5.4, 5.8, 4.8, 6.2, 5.2, 5.6, 4.6, 6.0, 5.1, 5.3, 5.5, 4.9, 6.1];
 const DELAYS    = [0.0, 0.8, 1.2, 0.5, 0.3, 1.4, 0.7, 0.9, 1.5, 0.6, 1.1, 0.4, 1.8, 0.2];
 
-const SLOT_PX   = 400;   
+const SLOT_PX   = 180;   
 const MIN_SLOTS =   7;   
 
 function FloatingFoods() {
@@ -260,7 +260,16 @@ function FloatingFoods() {
       </div>
     );
   }
+// const base = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
+// const targetWords = 100000;
 
+// let text = "";
+// let count = 0;
+
+// while (count < targetWords) {
+//   text += base;
+//   count += base.split(" ").length;
+// }
   /* ═══ LOGGED-IN VIEW ════════════════════════════════════════════════ */
   return (
      <div className="homeback" >
@@ -269,7 +278,7 @@ function FloatingFoods() {
       <div className="home-page-inner">
 
         {/* Search / filter bar */}
-        <section className=" homback bg-white/80 backdrop-blur-sm border-b border-gray-200 px-6 py-8" style={{ backgroundImage: `url(${cook3})` }} >
+        <section className=" homback bg-white/40 backdrop-blur-lg border-b border-gray-200 px-6 py-8" style={{ backgroundImage: `url(${cook3})` }} >
           <div className="glass max-w-5xl mx-auto">
             <div className="flex items-center gap-2 mb-4">
               <h1 className="text-2xl font-extrabold text-gray-900 flex-1">
@@ -340,7 +349,10 @@ function FloatingFoods() {
         {/* Results */}
         <section className="max-w-5xl mx-auto px-6 py-8">
           {loading ? (
-            <p className="text-gray-500">Loading...</p>
+            <p className="text-gray-500 lorem">Loading...</p>
+        
+
+
           ) : tab === "recipes" ? (
             recipes.length === 0 ? (
               <p className="text-center text-gray-400 py-16">No recipes match your search.</p>
