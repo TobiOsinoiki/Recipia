@@ -75,8 +75,8 @@ const ROTATIONS = [ 12, -10,  8, -14, 16,  -8, 20, -12, 10, -16,  6, 18, -6, 14]
 const DURATIONS = [5.0, 5.4, 5.8, 4.8, 6.2, 5.2, 5.6, 4.6, 6.0, 5.1, 5.3, 5.5, 4.9, 6.1];
 const DELAYS    = [0.0, 0.8, 1.2, 0.5, 0.3, 1.4, 0.7, 0.9, 1.5, 0.6, 1.1, 0.4, 1.8, 0.2];
 
-const SLOT_PX   = 180;   
-const MIN_SLOTS =   7;   
+const SLOT_PX   = 100;   
+const MIN_SLOTS =   11;   
 
 function FloatingFoods() {
   const [slots, setSlots] = useState(MIN_SLOTS);
@@ -91,9 +91,10 @@ function FloatingFoods() {
     ro.observe(document.body);
     return () => ro.disconnect();
   }, []);
+const tops = Array.from({ length: slots }, (_, i) =>
+  10 + (i * 4) % 80
 
-  const tops = Array.from({ length: slots }, (_, i) =>
-    slots === 1 ? 50 : 5 + (i / (slots - 1)) * 90   
+
   );
 
   return (
@@ -260,16 +261,16 @@ function FloatingFoods() {
       </div>
     );
   }
-// const base = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
-// const targetWords = 100000;
+const base = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
+const targetWords = 100000;
 
-// let text = "";
-// let count = 0;
+let text = "";
+let count = 0;
 
-// while (count < targetWords) {
-//   text += base;
-//   count += base.split(" ").length;
-// }
+while (count < targetWords) {
+  text += base;
+  count += base.split(" ").length;
+}
   /* ═══ LOGGED-IN VIEW ════════════════════════════════════════════════ */
   return (
      <div className="homeback" >
@@ -278,8 +279,18 @@ function FloatingFoods() {
       <div className="home-page-inner">
 
         {/* Search / filter bar */}
-        <section className=" homback bg-white/40 backdrop-blur-lg border-b border-gray-200 px-6 py-8" style={{ backgroundImage: `url(${cook3})` }} >
-          <div className="glass max-w-5xl mx-auto">
+        <section className ="homback px-6 py-16 text-black relative overflow-hidden"  style={{
+    backgroundImage: `
+      url(${cook3})
+    `,
+  
+  }} >
+      
+
+            
+ 
+
+       <div className="max-w-5xl mx-auto relative z-10 bg-white/5 backdrop-blur-sm p-6 sm:p-8 rounded-2xl">  
             <div className="flex items-center gap-2 mb-4">
               <h1 className="text-2xl font-extrabold text-gray-900 flex-1">
                 {tab === "recipes" ? "Discover Delicious Recipes" : "Find Other Cooks"}
@@ -355,7 +366,7 @@ function FloatingFoods() {
 
           ) : tab === "recipes" ? (
             recipes.length === 0 ? (
-              <p className="text-center text-gray-400 py-16">No recipes match your search.</p>
+              <p className="text-center text-gray-400 py-16">Sorry, no recipes match your search {text}</p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {recipes.map((r, i) => (
