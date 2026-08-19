@@ -7,9 +7,19 @@ import backFallback from "../assets/default.png";
 import cook2 from "../assets/cook2.png";
 
 const emptyForm = {
-  title: "", description: "", category: "Dinner", cuisine: "", tags: "",
-  image: "", prepTime: "", cookTime: "", servings: "", difficulty: "Easy",
-  ingredients: "", instructions: "",
+  title: "",
+  description: "",
+  category: "Dinner",
+  cuisine: "",
+  tags: "",
+  image: "",
+  prepTime: "",
+  cookTime: "",
+  servings: "",
+  difficulty: "Easy",
+  ingredients: "",
+  materials: "",
+  instructions: "",
 };
 
 export default function AddRecipe() {
@@ -29,12 +39,20 @@ export default function AddRecipe() {
     api.get(`/recipes/${editId}`).then((res) => {
       const r = res.data.recipe;
       setForm({
-        title: r.title, description: r.description, category: r.category,
-        cuisine: r.cuisine || "", tags: (r.tags || []).join(", "),
-        image: r.image, prepTime: r.prepTime, cookTime: r.cookTime,
-        servings: r.servings, difficulty: r.difficulty,
-        ingredients: r.ingredients.join("\n"), instructions: r.instructions.join("\n"),
-      });
+  title: r.title,
+  description: r.description,
+  category: r.category,
+  cuisine: r.cuisine || "",
+  tags: (r.tags || []).join(", "),
+  image: r.image,
+  prepTime: r.prepTime,
+  cookTime: r.cookTime,
+  servings: r.servings,
+  difficulty: r.difficulty,
+  ingredients: (r.ingredients || []).join("\n"),
+  materials: (r.materials || []).join("\n"),
+  instructions: (r.instructions || []).join("\n"),
+});
       setImagePreview(r.image || "");
       setLoading(false);
     });
@@ -55,15 +73,15 @@ export default function AddRecipe() {
     }
   };
 
-  const buildPayload = (isDraft) => ({
-    ...form,
-    tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
-    servings: Number(form.servings) || 2,
-    ingredients: form.ingredients.split("\n").map((s) => s.trim()).filter(Boolean),
-    materials: form.materials.split("\n").map((s) => s.trim()).filter(Boolean),
-    instructions: form.instructions.split("\n").map((s) => s.trim()).filter(Boolean),
-    isDraft,
-  });
+ const buildPayload = (isDraft) => ({
+  ...form,
+  tags: (form.tags || "").split(",").map((t) => t.trim()).filter(Boolean),
+  servings: Number(form.servings) || 2,
+  ingredients: (form.ingredients || "").split("\n").map((s) => s.trim()).filter(Boolean),
+  materials: (form.materials || "").split("\n").map((s) => s.trim()).filter(Boolean),
+  instructions: (form.instructions || "").split("\n").map((s) => s.trim()).filter(Boolean),
+  isDraft,
+});
 
   const submit = async (e, isDraft) => {
     e.preventDefault();
