@@ -94,10 +94,22 @@ export const getRecipeById = async (req, res) => {
 // POST /api/recipes (auth)
 export const createRecipe = async (req, res) => {
   try {
-    const {
-      title, description, category, cuisine, tags, image, prepTime, cookTime,
-      servings, difficulty, ingredients, instructions, isDraft,
-    } = req.body;
+   const {
+  title,
+  description,
+  category,
+  cuisine,
+  tags,
+  image,
+  prepTime,
+  cookTime,
+  servings,
+  difficulty,
+  ingredients,
+  materials,
+  instructions,
+  isDraft,
+} = req.body;
 
     if (!title) {
       return res.status(400).json({ message: "Title is required" });
@@ -140,10 +152,22 @@ export const updateRecipe = async (req, res) => {
       return res.status(403).json({ message: "Not authorized to edit this recipe" });
     }
 
-    const fields = [
-      "title", "description", "category", "cuisine", "tags", "image", "prepTime", "cookTime",
-      "servings", "difficulty", "ingredients", "instructions", "isDraft",
-    ];
+ const fields = [
+  "title",
+  "description",
+  "category",
+  "cuisine",
+  "tags",
+  "image",
+  "prepTime",
+  "cookTime",
+  "servings",
+  "difficulty",
+  "ingredients",
+  "materials",
+  "instructions",
+  "isDraft",
+];
     fields.forEach((f) => {
       if (req.body[f] !== undefined) recipe[f] = req.body[f];
     });

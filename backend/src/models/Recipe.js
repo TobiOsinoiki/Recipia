@@ -12,7 +12,7 @@ const RecipeSchema = new mongoose.Schema(
     cuisine: { type: String, default: "", trim: true },
     tags: { type: [String], default: [] },
 
-    image: { type: String, default: "" }, // base64 data URL (device upload) or external URL
+    image: { type: String, default: "" }, 
     prepTime: { type: String, default: "" },
     cookTime: { type: String, default: "" },
     servings: { type: Number, default: 2, min: 1 },
