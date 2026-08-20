@@ -135,6 +135,18 @@ export default function RecipeDetail() {
               </ul>
             </section>
 
+  <section className="rd-sec">
+    <h2 className="rd-sec__title">Materials</h2>
+
+    <ul className="rd-ing">
+      {(recipe.materials || []).map((material, i) => (
+        <li key={i} className="rd-ing__item">
+          {material}
+        </li>
+      ))}
+    </ul>
+  </section>
+  
             <section className="rd-sec">
               <h2 className="rd-sec__title">Instructions</h2>
               <ol className="rd-steps">
