@@ -127,7 +127,7 @@ async function seed() {
 
   let kitchen = await User.findOne({ email: KITCHEN_EMAIL });
   if (!kitchen) {
-    const hashed = await bcrypt.hash("ChangeMe123!", 10);
+    const hashed = await bcrypt.hash("b00m$haka1aka", 10);
     kitchen = await User.create({
       name: KITCHEN_NAME,
       email: KITCHEN_EMAIL,
@@ -137,9 +137,7 @@ async function seed() {
       isVerified: true,
       roles: ["user"],
     });
-    console.log(`Created official account: ${KITCHEN_EMAIL} (password: ChangeMe123! — change this before using in production)`);
-  } else {
-    console.log("Official account already exists, reusing it.");
+  
   }
 
   const existingCount = await Recipe.countDocuments({ author: kitchen._id });
