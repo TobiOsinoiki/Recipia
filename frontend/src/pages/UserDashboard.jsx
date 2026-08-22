@@ -6,8 +6,7 @@ import api from "../api.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import RecipeCard from "../components/RecipeCard.jsx";
 import AddRecipe from "./AddRecipe.jsx";
-import cook3 from "../assets/cook3.png";
-import logo from "../assets/logo.png"
+
 const TABS = ["My Recipes", "My Collections", "Edit Profile"];
 
 export default function UserDashboard() {

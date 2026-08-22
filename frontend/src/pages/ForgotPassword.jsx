@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api.js";
 import logo from "../assets/logo.png";
-import food7 from "../assets/food7.png";
+import food7 from "../assets/food7.webp";
 
 export default function ForgotPassword() {
   const [step, setStep] = useState("email"); 

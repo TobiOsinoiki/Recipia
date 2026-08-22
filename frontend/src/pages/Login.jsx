@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import api from "../api.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import food7 from "../assets/food7.png";
+import food7 from "../assets/food7.webp";
 import logo from "../assets/logo.png";
 import ForgotPassword from "./ForgotPassword.jsx";
 export default function Login() {

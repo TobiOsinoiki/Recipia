@@ -218,7 +218,6 @@ export const getComments = async (req, res) => {
 };
 
 // POST /api/recipes/:id/comments (auth) { text, parentComment? }
-// Recipe owners are allowed to comment/reply on their own recipes.
 export const addComment = async (req, res) => {
   try {
     const { text, parentComment } = req.body;

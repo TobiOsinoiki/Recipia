@@ -26,7 +26,7 @@ export const optionalAuth = (req, res, next) => {
       req.user = { id: decoded.id };
     }
   } catch (error) {
-    // ignore invalid token for optional auth
+    
   }
   next();
 };

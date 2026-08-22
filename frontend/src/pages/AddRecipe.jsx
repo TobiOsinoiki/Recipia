@@ -230,7 +230,7 @@ export default function AddRecipe() {
             onClick={(e) => submit(e, false)}
             className="flex-1 bg-recipia-red text-white font-bold py-3 rounded-lg hover:bg-recipia-redDark transition disabled:opacity-60"
           >
-            {saving ? "Saving…" : editId ? "Save Changes" : "Publish Recipe"}
+            {saving ? "Saving…" : editId ? "Publish" : "Publish Recipe"}
           </button>
         </div>
       </form>

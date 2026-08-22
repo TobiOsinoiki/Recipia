@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Clock, Flame, Heart, Eye } from "lucide-react";
-import defaultCover from "../assets/default.png";
+import defaultCover from "../assets/default.webp";
 
 export default function RecipeCard({ recipe }) {
   const totalTime = (recipe.prepTime || 0) + (recipe.cookTime || 0);

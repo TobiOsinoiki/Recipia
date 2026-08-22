@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import api from "../api.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import whisk from "../assets/whisk.png";
+import whisk from "../assets/whisk.webp";
 import logo from "../assets/logo.png";
 
 export default function Register() {

@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import CommentsSection from "../components/CommentsSection.jsx";
 import SaveToCollectionModal from "../components/SaveToCollectionModal.jsx";
 import ReportButton from "../components/ReportButton.jsx";
-import cook3 from "../assets/cook3.png";
+import cook3 from "../assets/cook3.webp";
 
 export default function RecipeDetail() {
   const { id } = useParams();

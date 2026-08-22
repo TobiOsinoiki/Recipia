@@ -1,5 +1,5 @@
 import logo from "../assets/logo.png";
-import spat from "../assets/spat.png";
+import spat from "../assets/spat.webp";
 import cook from "../assets/cook.png";
 export default function About() {
   const features = [
