@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Upload } from "lucide-react";
 import api from "../api.js";
 import { fileToDataURL } from "../utils/fileToDataURL.js";
-import backFallback from "../assets/default.png";
+import backFallback from "../assets/default.webp";
 import cook2 from "../assets/cook2.png";
 
 const emptyForm = {
