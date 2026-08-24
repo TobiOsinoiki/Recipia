@@ -3,30 +3,61 @@ import User from "../models/User.js";
 import Recipe from "../models/Recipe.js";
 
 // PUT /api/me/profile
+
+
 export const updateProfile = async (req, res) => {
   try {
-    const { name, bio, profilePicture, password } = req.body;
     const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
 
-    if (name) user.name = name;
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const { name, bio, profilePicture, oldPassword, newPassword } = req.body;
+
+    if (name !== undefined) user.name = name;
     if (bio !== undefined) user.bio = bio;
     if (profilePicture !== undefined) user.profilePicture = profilePicture;
-    if (password) {
-      if (password.length < 6) {
-        return res.status(400).json({ message: "Password must be at least 6 characters" });
+
+    // Change password if requested
+    if (newPassword) {
+      if (!oldPassword) {
+        return res.status(400).json({
+          message: "Current password is required"
+        });
       }
-      user.password = await bcrypt.hash(password, 10);
+
+      const match = await bcrypt.compare(oldPassword, user.password);
+
+      if (!match) {
+        return res.status(400).json({
+          message: "Current password is incorrect"
+        });
+      }
+
+      if (newPassword.length < 6) {
+        return res.status(400).json({
+          message: "New password must be at least 6 characters"
+        });
+      }
+
+      user.password = await bcrypt.hash(newPassword, 10);
     }
 
     await user.save();
-    res.json({ message: "Profile updated", user: user.toPublicJSON() });
+
+    res.json({
+      message: "Profile updated successfully",
+      user: user.toPublicJSON()
+    });
+
   } catch (error) {
     console.error("Update profile error:", error.message);
-    res.status(500).json({ message: "Failed to update profile" });
+    res.status(500).json({
+      message: "Failed to update profile"
+    });
   }
 };
-
 // GET /api/me
 export const getMe = async (req, res) => {
   try {
@@ -102,10 +133,36 @@ export const searchUsers = async (req, res) => {
 export const updateNotificationSettings = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    user.notificationSettings = { ...user.notificationSettings.toObject(), ...req.body };
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const allowedSettings = [
+      "follow",
+      "comment",
+      "reply",
+      "heart",
+      "collectionSave",
+      "newRecipe",
+    ];
+
+    allowedSettings.forEach((key) => {
+      if (typeof req.body[key] === "boolean") {
+        user.notificationSettings[key] = req.body[key];
+      }
+    });
+
     await user.save();
-    res.json({ notificationSettings: user.notificationSettings });
+
+    res.json({
+      notificationSettings: user.notificationSettings
+    });
+
   } catch (error) {
-    res.status(500).json({ message: "Failed to update notification settings" });
+    console.error("Update notification settings error:", error.message);
+    res.status(500).json({
+      message: "Failed to update notification settings"
+    });
   }
 };

@@ -1,6 +1,12 @@
 import express from "express";
 import { authMiddleware, optionalAuth } from "../middleware/auth.js";
-import { updateProfile, getMe, getPublicProfile, searchUsers } from "../Controller/userController.js";
+import {
+  updateProfile,
+  getMe,
+  getPublicProfile,
+  searchUsers,
+  updateNotificationSettings
+} from "../Controller/userController.js";
 import { getPublicCollectionsForUser } from "../Controller/collectionController.js";
 import { toggleFollow, getFollowers, getFollowing } from "../Controller/FollowController.js";
 
@@ -18,4 +24,9 @@ router.post("/users/:id/follow", authMiddleware, toggleFollow);
 router.get("/users/:id/followers", getFollowers);
 router.get("/users/:id/following", getFollowing);
 
+router.put(
+  "/me/notification-settings",
+  authMiddleware,
+  updateNotificationSettings
+);
 export default router;

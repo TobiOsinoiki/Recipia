@@ -246,11 +246,6 @@ function EditProfile() {
       setOldPassword("");
       setNewPassword("");
       setMessage("Profile updated!");
-      if (req.body.newPassword) {
-  const match = await bcrypt.compare(req.body.oldPassword || "", user.password);
-  if (!match) return res.status(400).json({ message: "Current password is incorrect" });
-  user.password = await bcrypt.hash(req.body.newPassword, 10);
-}
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update profile");
     } finally {
