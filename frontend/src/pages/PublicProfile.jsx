@@ -5,14 +5,16 @@ import api from "../api.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import RecipeCard from "../components/RecipeCard.jsx";
 import FollowButton from "../components/FollowButton.jsx";
+import FollowListModal from "../components/FollowListModal.jsx";
 import cook1 from "../assets/cook1.png";
+
 
 export default function PublicProfile() {
   const { id } = useParams();
   const { user } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-
+const [listModal, setListModal] = useState(null);
   useEffect(() => {
     setLoading(true);
     api
@@ -53,20 +55,19 @@ export default function PublicProfile() {
             <p className="rcp-prof__bio">
               {profileUser.bio || "This user hasn't written a bio yet."}
             </p>
-
-            <div className="rcp-stats">
-              <span>
-                <strong>{profileUser.followerCount}</strong> followers
-              </span>
-              <span className="rcp-stats__dot" aria-hidden="true" />
-              <span>
-                <strong>{profileUser.followingCount}</strong> following
-              </span>
-              <span className="rcp-stats__dot" aria-hidden="true" />
-              <span className="rcp-stats__joined">
-                Joined {new Date(profileUser.createdAt).toLocaleDateString()}
-              </span>
-            </div>
+<div className="rcp-stats">
+  <button onClick={() => setListModal("followers")} className="hover:text-recipia-red transition-colors">
+    <strong>{profileUser.followerCount}</strong> followers
+  </button>
+  <span className="rcp-stats__dot" aria-hidden="true" />
+  <button onClick={() => setListModal("following")} className="hover:text-recipia-red transition-colors">
+    <strong>{profileUser.followingCount}</strong> following
+  </button>
+  <span className="rcp-stats__dot" aria-hidden="true" />
+  <span className="rcp-stats__joined">
+    Joined {new Date(profileUser.createdAt).toLocaleDateString()}
+  </span>
+</div>
 
             <div className="rcp-prof__actions">
               {isOwnProfile ? (
@@ -105,6 +106,13 @@ export default function PublicProfile() {
             </div>
           )}
         </section>
+        {listModal && (
+  <FollowListModal
+    userId={profileUser._id}
+    mode={listModal}
+    onClose={() => setListModal(null)}
+  />
+)}
       </div>
     </div>
   );

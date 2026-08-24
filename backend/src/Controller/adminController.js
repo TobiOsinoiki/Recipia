@@ -96,3 +96,30 @@ export const adminDeleteComment = async (req, res) => {
     res.status(500).json({ message: "Failed to remove comment" });
   }
 };
+
+export const suspendUser = async (req, res) => {
+  try {
+    if (req.params.userId === req.user.id) {
+      return res.status(400).json({ message: "You cannot suspend your own account" });
+    }
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    user.suspended = true;
+    await user.save();
+    res.json({ message: "User suspended", user: user.toPublicJSON() });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to suspend user" });
+  }
+};
+
+export const unsuspendUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    user.suspended = false;
+    await user.save();
+    res.json({ message: "User unsuspended", user: user.toPublicJSON() });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to unsuspend user" });
+  }
+};

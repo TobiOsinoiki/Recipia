@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Users, ChefHat, Search, Trash2, BadgeCheck } from "lucide-react";
 import api from "../api.js";
 import { useAuth } from "../context/AuthContext.jsx";
-
+import UserDetailModal from "../components/UserDetailModal.jsx"
 const TABS = ["Overview", "Users", "Recipes", "Reports"];
 
 export default function AdminDashboard() {
@@ -33,6 +33,17 @@ export default function AdminDashboard() {
     setUsers((us) => us.filter((u) => u._id !== id));
   };
 
+  const handleSuspend = async (id) => {
+  if (id === admin._id) return alert("You cannot suspend your own account.");
+  await api.put(`/admin/users/${id}/suspend`);
+  setUsers((us) => us.map((u) => (u._id === id ? { ...u, suspended: true } : u)));
+};
+
+const handleUnsuspend = async (id) => {
+  await api.put(`/admin/users/${id}/unsuspend`);
+  setUsers((us) => us.map((u) => (u._id === id ? { ...u, suspended: false } : u)));
+};
+
   if (loading) return <p className="text-center text-gray-400 py-20">Loading...</p>;
 
   return (
@@ -51,11 +62,7 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      {tab === "Overview" && <Overview users={users} />}
-      {tab === "Users" && (
-        <UsersTab users={users} admin={admin} onPromote={handlePromote} onRemoveAdmin={handleRemoveAdmin} onDelete={handleDelete} />
-      )}
-      {tab === "Recipes" && <RecipesTab />}
+      
       
   {tab === "Overview" && <Overview users={users} />}
       {tab === "Users" && (
@@ -63,6 +70,13 @@ export default function AdminDashboard() {
       )}
       {tab === "Recipes" && <RecipesTab />}
       {tab === "Reports" && <ReportsTab />}
+      {tab === "Users" && (
+  <UsersTab
+    users={users} admin={admin}
+    onPromote={handlePromote} onRemoveAdmin={handleRemoveAdmin} onDelete={handleDelete}
+    onSuspend={handleSuspend} onUnsuspend={handleUnsuspend}
+  />
+)}
     </div>
   );
 }
@@ -98,9 +112,10 @@ function Overview({ users }) {
   );
 }
 
-function UsersTab({ users, admin, onPromote, onRemoveAdmin, onDelete }) {
+function UsersTab({ users, admin, onPromote, onRemoveAdmin, onDelete, onSuspend, onUnsuspend }) {
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const filtered = users.filter((u) => {
     const matchesSearch =
@@ -133,7 +148,7 @@ function UsersTab({ users, admin, onPromote, onRemoveAdmin, onDelete }) {
         </select>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm overflow-x-auto">
+       <div className="bg-white rounded-xl shadow-sm overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="text-gray-400 text-left">
             <tr>
@@ -147,9 +162,13 @@ function UsersTab({ users, admin, onPromote, onRemoveAdmin, onDelete }) {
             {filtered.length === 0 ? (
               <tr><td colSpan={4} className="text-center text-gray-400 py-8">No users match your filters.</td></tr>
             ) : filtered.map((u) => (
-              <tr key={u._id} className="border-t border-gray-100">
+              <tr
+                key={u._id}
+                className="border-t border-gray-100 cursor-pointer hover:bg-gray-50"
+                onClick={() => setSelectedUser(u)}
+              >
                 <td className="px-4 py-3 font-semibold text-gray-800">
-                  {u.name} {u.isOfficial && <BadgeCheck size={13} className="inline text-recipia-red ml-1" />} {isSelf(u._id) && <span className="text-xs text-gray-400 ml-1">(You)</span>}
+                  {u.name} {u.isOfficial && <BadgeCheck size={13} className="inline text-recipia-red ml-1" />} {u._id === admin._id && <span className="text-xs text-gray-400 ml-1">(You)</span>}
                 </td>
                 <td className="px-4 py-3 text-gray-500">{u.email}</td>
                 <td className="px-4 py-3">
@@ -157,8 +176,8 @@ function UsersTab({ users, admin, onPromote, onRemoveAdmin, onDelete }) {
                     {u.roles?.join(", ") || "user"}
                   </span>
                 </td>
-                <td className="px-4 py-3">
-                  {isSelf(u._id) ? (
+                <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                  {u._id === admin._id ? (
                     <span className="text-gray-400 italic text-xs">Your account</span>
                   ) : (
                     <div className="flex gap-2">
@@ -176,10 +195,22 @@ function UsersTab({ users, admin, onPromote, onRemoveAdmin, onDelete }) {
           </tbody>
         </table>
       </div>
+
+      {selectedUser && (
+        <UserDetailModal
+          user={selectedUser}
+          admin={admin}
+          onClose={() => setSelectedUser(null)}
+          onPromote={(id) => { onPromote(id); setSelectedUser((s) => ({ ...s, roles: [...(s.roles || []), "admin"] })); }}
+          onRemoveAdmin={(id) => { onRemoveAdmin(id); setSelectedUser((s) => ({ ...s, roles: (s.roles || []).filter((r) => r !== "admin") })); }}
+          onDelete={(id) => { onDelete(id); setSelectedUser(null); }}
+          onSuspend={(id) => { onSuspend(id); setSelectedUser((s) => ({ ...s, suspended: true })); }}
+          onUnsuspend={(id) => { onUnsuspend(id); setSelectedUser((s) => ({ ...s, suspended: false })); }}
+        />
+      )}
     </div>
   );
 }
-
 function RecipesTab() {
   const [recipes, setRecipes] = useState([]);
   const [status, setStatus] = useState("all");

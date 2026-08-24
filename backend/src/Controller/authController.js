@@ -68,7 +68,9 @@ export const login = async (req, res) => {
     if (!user.isVerified) {
       return res.status(403).json({ message: "Please verify your email before logging in" });
     }
-
+if (user.suspended) {
+  return res.status(403).json({ message: "Your account has been suspended. Contact support if you think this is a mistake." });
+}
     const token = signToken(user);
     res.json({ message: "Login successful", user: user.toPublicJSON(), token });
   } catch (error) {

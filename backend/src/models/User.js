@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
+import Report from "./Report";
 
 const UserSchema = new mongoose.Schema(
   {
@@ -9,10 +10,9 @@ const UserSchema = new mongoose.Schema(
     bio: { type: String, default: "", maxlength: 500, trim: true },
     profilePicture: { type: String, default: null },
     roles: { type: [String], default: ["user"] }, 
+   isOfficial: { type: Boolean, default: false },
+    suspended: { type: Boolean, default: false },
 
-   
-    isOfficial: { type: Boolean, default: false },
-    
 notificationSettings: {
   follow: { type: Boolean, default: true },
   comment: { type: Boolean, default: true },
@@ -20,6 +20,7 @@ notificationSettings: {
   heart: { type: Boolean, default: true },
   collectionSave: { type: Boolean, default: true },
   newRecipe: { type: Boolean, default: true },
+  report: { type: Boolean, default: true },
 },
     
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],

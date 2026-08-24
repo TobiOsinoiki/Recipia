@@ -3,7 +3,7 @@ import { authMiddleware } from "../middleware/auth.js";
 import { adminMiddleware } from "../middleware/adminAuth.js";
 import {
   getAllUsers, makeUserAdmin, removeAdminRole, deleteUser,
-  getAllRecipesForAdmin, adminDeleteRecipe, adminDeleteComment,
+  getAllRecipesForAdmin, adminDeleteRecipe, adminDeleteComment, suspendUser, unsuspendUser,
 } from "../Controller/adminController.js";
 import { getReports, updateReportStatus } from "../Controller/reportController.js";
 
@@ -24,5 +24,6 @@ router.delete("/comments/:id", authMiddleware, adminMiddleware, adminDeleteComme
 
 router.get("/reports", authMiddleware, adminMiddleware, getReports);
 router.put("/reports/:id", authMiddleware, adminMiddleware, updateReportStatus);
-
+router.put("/users/:userId/suspend", authMiddleware, adminMiddleware, suspendUser);
+router.put("/users/:userId/unsuspend", authMiddleware, adminMiddleware, unsuspendUser);
 export default router;

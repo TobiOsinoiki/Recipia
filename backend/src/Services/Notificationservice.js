@@ -23,3 +23,16 @@ export async function notifyFollowers({ actor, followerIds, recipe }) {
 
   if (docs.length) await Notification.insertMany(docs);
 }
+
+export async function notifyAdmins({ actor, recipe }) {
+  const admins = await User.find({
+    roles: "admin",
+    "notificationSettings.report": { $ne: false },
+  }).select("_id");
+
+  const docs = admins
+    .filter((a) => String(a._id) !== String(actor))
+    .map((a) => ({ recipient: a._id, actor, type: "report", recipe }));
+
+  if (docs.length) await Notification.insertMany(docs);
+}

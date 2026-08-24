@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import Report from "../models/Report.js";
 import Recipe from "../models/Recipe.js";
-
+import { notifyAdmins } from "../Services/Notificationservice.js";
 const isValidId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 // POST /api/recipes/:id/report (auth)
+
 export const createReport = async (req, res) => {
   try {
     if (!isValidId(req.params.id)) return res.status(400).json({ message: "Invalid recipe ID" });
@@ -15,6 +16,8 @@ export const createReport = async (req, res) => {
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
 
     const report = await Report.create({ recipe: recipe._id, reporter: req.user.id, reason: reason.trim() });
+    await notifyAdmins({ actor: req.user.id, recipe: recipe._id });
+
     res.status(201).json({ message: "Report submitted", report });
   } catch (error) {
     res.status(500).json({ message: "Failed to submit report" });
@@ -51,3 +54,5 @@ export const updateReportStatus = async (req, res) => {
     res.status(500).json({ message: "Failed to update report" });
   }
 };
+
+
